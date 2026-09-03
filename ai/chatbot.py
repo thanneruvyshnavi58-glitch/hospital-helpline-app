@@ -34,9 +34,9 @@ Patient message:
 {user_message}
 """
 
-          # Changed to the stable production flash identifier
+         # Upgraded to the mandatory mainline model to resolve the 404 lockout
         response = client.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.6-flash",  # Exactly matches Google's required string
             contents=prompt,
         )
 
