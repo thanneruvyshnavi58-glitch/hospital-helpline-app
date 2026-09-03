@@ -16,7 +16,7 @@ username = os.getenv("MONG0_USER_NAME")
 # IMPORTANT:
 # Put your NEW MongoDB Atlas database-user password here.
 password = os.getenv("MONG0_USER_PASSWORD")
-db_name:os.getenv("MONGO_DB_NAME")
+db_name = os.getenv("MONGO_DB_NAME") # type: ignore
 
 escaped_username = urllib.parse.quote_plus(username)
 escaped_password = urllib.parse.quote_plus(password)
