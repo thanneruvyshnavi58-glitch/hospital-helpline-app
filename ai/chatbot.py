@@ -1,4 +1,5 @@
 import os
+import time
 from google import genai
 from dotenv import load_dotenv
 
@@ -13,8 +14,12 @@ else:
 
 
 def generate_helpline_response(user_message, conversation_history=None):
+
     if not GEMINI_API_KEY or client is None:
-        return "I am currently running in offline simulation mode. Please set a valid GEMINI_API_KEY."
+        return (
+            "I am currently running in offline simulation mode. "
+            "Please set a valid GEMINI_API_KEY."
+        )
 
     system_instruction = (
         "You are a helpful, empathetic medical helpdesk assistant "
@@ -32,28 +37,31 @@ Patient message:
 {user_message}
 """
 
-    # Primary model choice
-    primary_model = "gemini-3.6-flash"
-    fallback_model = "gemini-2.5-flash"
+    # Current Gemini model
+    model = "gemini-3.6-flash"
 
-    try:
-        # Attempt generation using primary model
-        response = client.models.generate_content(
-            model=primary_model,
-            contents=prompt,
-        )
-        return response.text
+    for attempt in range(3):
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+            )
 
-    except Exception as e:
-        # If primary model is down due to a 503 high demand spike, seamlessly try the fallback
-        if "503" in str(e) or "UNAVAILABLE" in str(e).upper():
-            try:
-                response = client.models.generate_content(
-                    model=fallback_model,
-                    contents=prompt,
+            return response.text
+
+        except Exception as e:
+
+            error_message = str(e)
+
+            if "503" in error_message or "UNAVAILABLE" in error_message.upper():
+
+                if attempt < 2:
+                    time.sleep(3)
+                    continue
+
+                return (
+                    "Gemini is temporarily experiencing high demand. "
+                    "Please try sending your message again in a few seconds."
                 )
-                return response.text
-            except Exception as fallback_error:
-                return f"All Gemini model pipelines are experiencing heavy global demand. Please retry in a few seconds. Details: {str(fallback_error)}"
-        
-        return f"An error occurred while generating context: {str(e)}"
+
+            return f"An error occurred while generating response: {error_message}"

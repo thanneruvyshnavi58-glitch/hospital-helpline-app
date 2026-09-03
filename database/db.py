@@ -6,30 +6,44 @@ import certifi
 
 from datetime import datetime
 from pymongo import MongoClient
+from dotenv import load_dotenv
+
+# ==========================================
+# Load .env
+# ==========================================
+
+load_dotenv()
 
 # ==========================================
 # MongoDB Configuration
 # ==========================================
 
-username = os.getenv("MONG0_USER_NAME")
+username = os.getenv("MONGO_USER_NAME")
+password = os.getenv("MONGO_USER_PASSWORD")
+db_name = os.getenv("MONGO_DB_NAME")
 
-# IMPORTANT:
-# Put your NEW MongoDB Atlas database-user password here.
-password = os.getenv("MONG0_USER_PASSWORD")
-db_name = os.getenv("MONGO_DB_NAME") # type: ignore
+if not username:
+    raise ValueError("MONGO_USER_NAME is missing from .env")
+
+if not password:
+    raise ValueError("MONGO_USER_PASSWORD is missing from .env")
+
+if not db_name:
+    raise ValueError("MONGO_DB_NAME is missing from .env")
 
 escaped_username = urllib.parse.quote_plus(username)
 escaped_password = urllib.parse.quote_plus(password)
-escaped_db_name = urllib.parse.quote_plus(db_name)
 
 MONGO_URI = (
     f"mongodb+srv://{escaped_username}:{escaped_password}"
-    "@{escaped_db_name}.z1tnmjn.mongodb.net/"
-    "?retryWrites=true&w=majority&appName=Hospitalhelpline"
+    f"@hospitalhelpline.z1tnmjn.mongodb.net/"
+    f"{db_name}"
+    "?retryWrites=true&w=majority"
+    "&authSource=admin"
+    "&appName=Hospitalhelpline"
 )
 
-DB_NAME = "hospital_helpline"
-
+DB_NAME = db_name
 DATA_DIR = os.path.join(
     os.path.dirname(os.path.dirname(__file__)),
     "data"
@@ -65,10 +79,15 @@ def init_db():
         print("MongoDB connected successfully!")
 
     except Exception as e:
+
         print(f"[WARN] MongoDB offline or unreachable: {e}")
+
         return
 
-    # Hospital information
+    # --------------------------------------
+    # Hospital Information
+    # --------------------------------------
+
     if db.hospital_info.count_documents({}) == 0:
 
         db.hospital_info.insert_one({
@@ -82,24 +101,49 @@ def init_db():
             "ambulance_status": "24/7 Mobile ICU Fleet Available"
         })
 
-    # Load JSON files
+
+    # --------------------------------------
+    # Load JSON Data
+    # --------------------------------------
+
     def load_json_seed(filename, collection):
 
         if collection.count_documents({}) == 0:
 
-            path = os.path.join(DATA_DIR, filename)
+            path = os.path.join(
+                DATA_DIR,
+                filename
+            )
 
             if os.path.exists(path):
 
-                with open(path, "r", encoding="utf-8") as f:
+                with open(
+                    path,
+                    "r",
+                    encoding="utf-8"
+                ) as f:
+
                     items = json.load(f)
 
                 if items:
+
                     collection.insert_many(items)
 
-    load_json_seed("departments.json", db.departments)
-    load_json_seed("doctors.json", db.doctors)
-    load_json_seed("faqs.json", db.faqs)
+
+    load_json_seed(
+        "departments.json",
+        db.departments
+    )
+
+    load_json_seed(
+        "doctors.json",
+        db.doctors
+    )
+
+    load_json_seed(
+        "faqs.json",
+        db.faqs
+    )
 
 
 # ==========================================
@@ -124,7 +168,7 @@ def get_hospital_info():
             "emergency_phone": "+1 (555) 019-9111",
             "working_hours": "OPD: Mon-Sat 08:00 AM - 08:00 PM | Emergency: 24/7",
             "visiting_hours": "10:00 AM - 12:00 PM & 04:30 PM - 07:00 PM",
-            "facilities": "24/7 Trauma, Advanced ORs, CT & MRI, Dialysis Unit, NICU",
+            "facilities": "24/7 Emergency & Trauma, CT & MRI, Dialysis Unit, NICU",
             "ambulance_status": "24/7 Mobile ICU Fleet Available"
         }
 
@@ -140,6 +184,7 @@ def get_departments(search_term=""):
     db = get_db()
 
     if not search_term:
+
         return list(
             db.departments.find(
                 {},
@@ -147,7 +192,9 @@ def get_departments(search_term=""):
             )
         )
 
-    safe_term = re.escape(search_term.strip())
+    safe_term = re.escape(
+        search_term.strip()
+    )
 
     regex = {
         "$regex": safe_term,
@@ -172,18 +219,27 @@ def get_departments(search_term=""):
 # Doctors
 # ==========================================
 
-def get_doctors(dept_filter=None, search_name=""):
+def get_doctors(
+    dept_filter=None,
+    search_name=""
+):
 
     db = get_db()
 
     query = {}
 
-    if dept_filter and dept_filter != "All Departments":
+    if (
+        dept_filter
+        and dept_filter != "All Departments"
+    ):
+
         query["department"] = dept_filter
 
     if search_name:
 
-        safe_name = re.escape(search_name.strip())
+        safe_name = re.escape(
+            search_name.strip()
+        )
 
         query["$or"] = [
             {
@@ -217,6 +273,7 @@ def get_faqs(search_query=""):
     db = get_db()
 
     if not search_query:
+
         return list(
             db.faqs.find(
                 {},
@@ -224,7 +281,9 @@ def get_faqs(search_query=""):
             )
         )
 
-    safe_query = re.escape(search_query.strip())
+    safe_query = re.escape(
+        search_query.strip()
+    )
 
     regex = {
         "$regex": safe_query,
@@ -245,7 +304,7 @@ def get_faqs(search_query=""):
 
 
 # ==========================================
-# Appointments
+# Insert Appointment
 # ==========================================
 
 def insert_appointment(
@@ -264,14 +323,24 @@ def insert_appointment(
     result = db.appointments.insert_one({
 
         "patient_name": patient_name,
+
         "age": age,
+
         "phone": phone,
+
         "department": department,
+
         "doctor": doctor,
+
         "preferred_date": preferred_date,
+
         "preferred_time": preferred_time,
+
         "reason": reason,
+
         "created_at": datetime.utcnow()
     })
 
-    return str(result.inserted_id)
+    return str(
+        result.inserted_id
+    )
