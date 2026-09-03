@@ -34,11 +34,12 @@ Patient message:
 {user_message}
 """
 
-        # Modern SDK format for generating content
+               # Swapped to a higher capacity model tier to bypass the 503 error
         response = client.models.generate_content(
-            model="gemini-3.6-flash",  # Fixed standard identifier
+            model="gemini-2.5-pro",  # Try gemini-2.5-pro or gemini-1.5-flash
             contents=prompt,
         )
+
 
         return response.text
 
