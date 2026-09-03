@@ -34,9 +34,9 @@ Patient message:
 {user_message}
 """
 
-               # Swapped to a higher capacity model tier to bypass the 503 error
+          # Changed to the stable production flash identifier
         response = client.models.generate_content(
-            model="gemini-3.1-pro",  # Try gemini-2.5-pro or gemini-1.5-flash
+            model="gemini-2.5-flash",
             contents=prompt,
         )
 
