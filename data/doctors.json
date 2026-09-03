@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Dr. Sarah Jenkins",
+    "specialization": "Interventional Cardiologist",
+    "department": "Cardiology",
+    "experience": "14 years",
+    "available_days": "Mon, Wed, Fri",
+    "timing": "09:00 AM - 01:00 PM"
+  },
+  {
+    "name": "Dr. Marcus Vance",
+    "specialization": "Adult & Pediatric Dermatologist",
+    "department": "Dermatology",
+    "experience": "9 years",
+    "available_days": "Tue, Thu, Sat",
+    "timing": "10:00 AM - 03:00 PM"
+  },
+  {
+    "name": "Dr. Elena Rostova",
+    "specialization": "Orthopedic Surgeon",
+    "department": "Orthopedics",
+    "experience": "16 years",
+    "available_days": "Mon, Tue, Thu",
+    "timing": "08:30 AM - 12:30 PM"
+  },
+  {
+    "name": "Dr. Tariq Al-Mansoor",
+    "specialization": "Consultant Neurologist",
+    "department": "Neurology",
+    "experience": "12 years",
+    "available_days": "Wed, Thu, Fri",
+    "timing": "01:00 PM - 05:00 PM"
+  },
+  {
+    "name": "Dr. Priya Sharma",
+    "specialization": "Pediatrician",
+    "department": "Pediatrics",
+    "experience": "8 years",
+    "available_days": "Mon, Wed, Sat",
+    "timing": "09:00 AM - 02:00 PM"
+  }
+]

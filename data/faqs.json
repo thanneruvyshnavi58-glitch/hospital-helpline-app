@@ -1,0 +1,27 @@
+[
+  {
+    "category": "Appointments",
+    "question": "How do I book an appointment?",
+    "answer": "Appointments can be booked directly through the Appointments tab or by calling +1 (555) 010-8800."
+  },
+  {
+    "category": "Appointments",
+    "question": "What documents should I bring?",
+    "answer": "Carry a government photo ID, health insurance card, referral letters, and past prescription records."
+  },
+  {
+    "category": "Timings & Visiting",
+    "question": "What are the visiting hours?",
+    "answer": "General wards: 10:00 AM - 12:00 PM and 04:30 PM - 07:00 PM daily. ICU: 05:00 PM - 06:00 PM only."
+  },
+  {
+    "category": "Emergency",
+    "question": "Where is the Emergency Department located?",
+    "answer": "Emergency is open 24/7 at Gate 1, Ground Floor, East Wing. Hotline: +1 (555) 019-9111."
+  },
+  {
+    "category": "Insurance",
+    "question": "Which health insurance plans are accepted?",
+    "answer": "We accept major networks including BlueCross, Aetna, Cigna, UnitedHealthcare, and Medicare."
+  }
+]

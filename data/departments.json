@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Cardiology",
+    "description": "Comprehensive cardiac care for heart failure, arrhythmias, and hypertension.",
+    "symptoms": ["chest pain", "shortness of breath", "palpitations", "dizziness", "heart"],
+    "location": "Wing A, 2nd Floor",
+    "contact": "+1 (555) 019-2831"
+  },
+  {
+    "name": "Dermatology",
+    "description": "Clinical diagnosis and therapies for skin, hair, and nail conditions.",
+    "symptoms": ["skin rash", "itching", "acne", "mole", "eczema", "hair loss", "skin"],
+    "location": "Wing B, 1st Floor",
+    "contact": "+1 (555) 019-2832"
+  },
+  {
+    "name": "Orthopedics",
+    "description": "Musculoskeletal treatment for fractures, spine, and joint pain.",
+    "symptoms": ["joint pain", "bone fracture", "back pain", "knee pain", "sprain", "bone"],
+    "location": "Wing C, Ground Floor",
+    "contact": "+1 (555) 019-2833"
+  },
+  {
+    "name": "Neurology",
+    "description": "Advanced care for brain, nerve, and spinal cord disorders.",
+    "symptoms": ["severe headache", "migraine", "numbness", "seizures", "tremors", "paralysis"],
+    "location": "Wing A, 3rd Floor",
+    "contact": "+1 (555) 019-2834"
+  },
+  {
+    "name": "Pediatrics",
+    "description": "Physical, behavioral, and preventive healthcare for children.",
+    "symptoms": ["child fever", "infant cough", "vaccination", "pediatric rash", "baby"],
+    "location": "Wing D, 1st Floor",
+    "contact": "+1 (555) 019-2835"
+  }
+]
