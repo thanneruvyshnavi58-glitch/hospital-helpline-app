@@ -36,7 +36,7 @@ Patient message:
 
         # Modern SDK format for generating content
         response = client.models.generate_content(
-            model="gemini-2.5-flash",  # Fixed standard identifier
+            model="gemini-3.6-flash",  # Fixed standard identifier
             contents=prompt,
         )
 
